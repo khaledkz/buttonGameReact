@@ -1,0 +1,24 @@
+.red{
+    
+
+    background:#FF2C2C;
+    color:white;
+}
+
+.gold{
+    background:GOLD;
+    color:white;
+}
+.blue{
+    background:rgb(35, 35, 63);
+    color:whitesmoke;
+}
+li{
+    list-style: none;
+    color:green;
+}
+.heightScore{
+    color:red;
+    margin-left:120px;
+    
+}
