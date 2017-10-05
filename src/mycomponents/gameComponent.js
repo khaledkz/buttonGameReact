@@ -20,9 +20,9 @@ class GameComponents extends React.Component{
             textMsg:'Start',
             challengeMsg:'Start Challenge',
             myLevel:1,
-            heart:1,
+            star:1,
             scoreToDone:10000,
-            lastTenScore:[1030,12149,3320,2748,6022,3988],
+            lastTenScore:[1,2,3,4,5,6   ],
             highestScore:0
             
         }
@@ -203,8 +203,7 @@ class GameComponents extends React.Component{
         return Math.floor(Math.random() * (max - min)) + min;
       }
     startMyGame=()=>{
-        console.log(11111)
-        
+         
         this.setState({
             startGame:!this.state.startGame,
             randomNum:-1,
@@ -213,12 +212,13 @@ class GameComponents extends React.Component{
             difficulties:-1,
             result:0,
             myLevel:1,
-            heart:1,
+            star:1,
             scoreToDone:10000,
             lastScore:3000,
             textMsg:"start",
              minLevel:5,
             maxLevel:15,
+            blood:20
            
         })
     }
@@ -249,129 +249,216 @@ class GameComponents extends React.Component{
         let newResult ;
         let myNewMsg="your Difficulties "+this.state.numberOfButtons;
 
-        if(this.state.heart>0){
-            console.log('A')
-            
-        
-        if(myTotal<this.state.lastScore){
-            let myHeart = this.state.heart;
-            let NewArray=this.state.lastTenScore;
-            let smallestNum=3000000;
-            let newResult=this.state.result+myTotal;
-            NewArray.map((x)=>{
-                if(x<smallestNum){
-                    smallestNum=x;
-                }
-            });
-            for(var i=0;i<NewArray.length;i++){
-                if(NewArray[i]==smallestNum){
-                    NewArray[i]=newResult;
-                }
-            }
-             
-             this.setState({
+                 
+         if(myTotal<this.state.lastScore){
+             if(this.state.blood>0){
+         let myStar = this.state.star;
+         let newResult=this.state.result+myTotal;
+
+                  this.setState({
                 disabled:true,
                 result:newResult,
                 resetColor:"grey",
                 lastScore:myTotal,
                 challengeMsg:'Continue Challenge',
-                heart:myHeart+1,
-                textMsg:myNewMsg
+                star:myStar+1
+                
+             })
+            }else{
+                let myStar = this.state.star;
+                let newResult=this.state.result+myTotal;
+
+                let NewArray=this.state.lastTenScore;
+                let smallestNum=3000000;
+                 NewArray.map((x)=>{
+                    if(x<smallestNum){
+                     smallestNum=x;
+                    }
+                });
+                for(var i=0;i<NewArray.length;i++){
+                    if(NewArray[i]==smallestNum && NewArray[i]<newResult){
+                             
+                    NewArray[i]=newResult;
+                    console.log(NewArray[i]+"k")
+                    
+                    }
+                }
+
+                this.setState({
+                    
+                    disabled:true,
+                    result:newResult,
+                    resetColor:"grey",
+                    lastScore:myTotal,
+                    challengeMsg:'done',
+                    star:myStar+1,
+                    lastTenScore:NewArray
+                    
+                
+            })
+                
+                
+            }
+        }
+
+       else{
+           let myBlooc=this.state.blood-10;
+        this.setState({
+            blood:myBlooc
+        })
+        console.log('-1')
+            console.log('blood'+myBlooc)
+           if(myBlooc>=10){
+            console.log('blood'+this.state.blood)
+            
+            let myStar = this.state.star;
+            newResult=this.state.result-myTotal;
+           this.setState({
+               
+               disabled:true,
+               result:newResult,
+               resetColor:"grey",
+               lastScore:myTotal,
+               star:myStar-1,           
+       })
+       console.log('10')
+       
+           }else{
+            
+            console.log('0')
+            
+       
+        let myStar = this.state.star;
+        let NewArray=this.state.lastTenScore;
+        let smallestNum=3000000;
+        let newResult=this.state.result-myTotal;
+        NewArray.map((x)=>{
+            if(smallestNum>x){
+             smallestNum=x;
+            }
+        });
+        for(var i=0;i<NewArray.length;i++){
+            if(NewArray[i]==smallestNum && newResult> NewArray[i]){
+                     NewArray[i]=newResult;
+                     console.log(NewArray[i])
+                    
+                
+            } 
+        }
+//      //                textMsg:myNewMsg
+
+
+             this.setState({
+               disabled:true,
+               result:newResult,
+               resetColor:"grey",
+               lastScore:myTotal,
+               challengeMsg:'Continue Challenge',
+               star:myStar-1,
+               lastTenScore:NewArray
+            })
+           
+           }}
+
+       //----------------------------------
+
+
+        // if(myTotal<this.state.lastScore){
+        //     if(this.state.blood>0){ 
+        //     let myStar = this.state.star;
+        //     let NewArray=this.state.lastTenScore;
+        //     let smallestNum=3000000;
+        //     let newResult=this.state.result+myTotal;
+        //     NewArray.map((x)=>{
+        //         if(x<smallestNum){
+        //           //  smallestNum=x;
+        //         }
+        //     });
+        //     for(var i=0;i<NewArray.length;i++){
+        //         if(NewArray[i]==smallestNum){
+        //          //   NewArray[i]=newResult;
+        //         }
+        //     }
+        //      //                textMsg:myNewMsg
+
+        //      this.setState({
+        //         disabled:true,
+        //         result:newResult,
+        //         resetColor:"grey",
+        //         lastScore:myTotal,
+        //         challengeMsg:'Continue Challenge',
+        //         star:myStar+1
                 
 
-             })
+        //      })
 
             
-        }else{
+        // }else{
              
-            if(this.state.heart>1){
-                if(this.state.result>120000){
-                    let myHeart = this.state.heart;
-                    let NewArray=this.state.lastTenScore;
-                    let smallestNum=3000000;
-                    let newResult=this.state.result-myTotal;
-                    NewArray.map((x)=>{
-                        if(x<smallestNum){
-                            smallestNum=x;
-                        }
-                    });
-                    for(var i=0;i<NewArray.length;i++){
-                        if(NewArray[i]==smallestNum){
-                            NewArray[i]=newResult;
-                        }
-                    }
-                      this.setState({
-                        disabled:true,
-                        result:newResult,
-                        resetColor:"grey",
-                        lastScore:myTotal,
-                        challengeMsg:'Continue Challenge',
-                        heart:myHeart-1,
-                        lastTenScore:NewArray
-                     })
-                    
-                }else{                 
-                    let myHeart = this.state.heart;
-                    let NewArray=this.state.lastTenScore;
-                    let smallestNum=3000000;
-                    let newResult=this.state.result-myTotal;
-                    NewArray.map((x)=>{
-                        if(x<smallestNum){
-                            smallestNum=x;
-                        }
-                    });
-                    for(var i=0;i<NewArray.length;i++){
-                        if(NewArray[i]==smallestNum){
-                            NewArray[i]=newResult;
-                        }
-                    }
-                       this.setState({
-                        disabled:true,
-                        result:this.state.result-myTotal,
-                        resetColor:"grey",
-                        lastScore:myTotal,
-                        challengeMsg:'Continue Challenge',
-                        heart:myHeart-1,
-                        lastTenScore:NewArray
-                        
-                      })
+        //     if(this.state.blood>1){
+        //              let myStar = this.state.star;
+        //             let NewArray=this.state.lastTenScore;
+        //             let smallestNum=3000000;
+        //             let newResult=this.state.result-myTotal;
+        //             NewArray.map((x)=>{
+        //                 if(x<smallestNum){
+        //                  //   smallestNum=x;
+        //                 }
+        //             });
+        //             for(var i=0;i<NewArray.length;i++){
+        //                 if(NewArray[i]==smallestNum){
+        //                //     NewArray[i]=newResult;
+        //                 }
+        //             }
+        //             //             lastTenScore:NewArray
 
-                }
-            }else{
-                 myNewMsg="Good Luck Next Time";
-                 let myHeart = this.state.heart;
-                 let NewArray=this.state.lastTenScore;
-                 let smallestNum=3000000;
-                 let newResult=this.state.result-myTotal;
-                 NewArray.map((x)=>{
-                     if(x<smallestNum){
-                         smallestNum=x;
-                     }
-                 });
-                 for(var i=0;i<NewArray.length;i++){
-                     if(NewArray[i]==smallestNum){
-                         NewArray[i]=newResult;
-                     }
-                 }
-                 this.setState({
-                disabled:true,
-                result:this.state.result-myTotal,
-                resetColor:"grey",
-                lastScore:myTotal,
-                challengeMsg:'Continue Challenge',
-                heart:myHeart-1,
-                   textMsg:myNewMsg,                
-                   lastTenScore:NewArray
-                   
-                   
+        //               this.setState({
+        //                 disabled:true,
+        //                 result:newResult,
+        //                 resetColor:"grey",
+        //                 lastScore:myTotal,
+        //                 challengeMsg:'Continue Challenge',
+        //                 star:myStar-1,
+        //                 blood:this.state.blood-10
+        //              })
                     
-               })
-             }
+                
+        //     }
              
-        }
+        // }
         
              
-        } 
+        // } else{
+        //     myNewMsg="Good Luck Next Time";
+        //     let myStar = this.state.star;
+        //     let NewArray=this.state.lastTenScore;
+        //     let smallestNum=3000000;
+        //     let newResult=this.state.result-myTotal;
+        //     NewArray.map((x)=>{
+        //         if(x<smallestNum){
+        //        //     smallestNum=x;
+        //         }
+        //     });
+        //     for(var i=0;i<NewArray.length;i++){
+        //         if(NewArray[i]==smallestNum){
+        //             NewArray[i]=newResult;
+        //         }
+        //     }
+        //     this.setState({
+        //    disabled:true,
+        //    result:this.state.result-myTotal,
+        //    resetColor:"grey",
+        //    lastScore:myTotal,
+        //    challengeMsg:'Continue Challenge',
+        //    star:myStar-1,
+        //       textMsg:myNewMsg,                
+        //       blood:this.state.blood-10
+              
+              
+              
+               
+        //   })
+        // }
         
         
         
@@ -382,9 +469,9 @@ class GameComponents extends React.Component{
         for(var i=0;i<this.state.numberOfButtons;i++){
             if(i==this.state.randomNum){
             if(this.state.resetColor==="red"){
-                buttons.push(<Button disabled={this.state.disabled} click={this.getResult} class={this.state.resetColor} number={" "+(i+1)}/>)
+                buttons.push(<Button disabled={this.state.disabled} click={this.getResult.bind(this,true)} class={this.state.resetColor} number={" "+(i+1)}/>)
             }else{
-                buttons.push(<Button disabled={this.state.disabled} click={this.getResult}  number={" "+(i+1)}/>)
+                buttons.push(<Button disabled={this.state.disabled} click={this.getResult.bind(this,true)}  number={" "+(i+1)}/>)
                 
             }
             
@@ -400,11 +487,15 @@ class GameComponents extends React.Component{
     render(){
         if(this.state.startGame ){
             if(this.state.difficulties>0){
-                    if(this.state.heart>0 ){
+                    if(this.state.blood>0 ){
                         return(
                             <div>
                                 <h1>Level {this.state.myLevel}</h1>
-                                <h4>heart {this.state.heart}</h4>
+                                <h4>star {this.state.star}</h4>
+                                <h2>Blod:{this.state.blood} %</h2>
+                                <p>Be Carefull if you blood become Zero you will die!!(each time you get -ve score your blood will decrease 10%)</p>
+
+
                             <button class="blue" onClick={this.startMyGame} > End</button>
                              <input type="number" placeholder="set the difficulties" onChange={this.updateNumberOfButtons}/>
                             <button class="red" onClick={this.generateRandomNumber}>{this.state.challengeMsg}</button>
@@ -414,14 +505,16 @@ class GameComponents extends React.Component{
         
                             <h1>Your Score:{this.state.result}</h1>
                             <h3>last Score:{this.state.lastScore}</h3>
+
                             <h3>You Should Get {this.state.scoreToDone} To go next level</h3>
                              
+                            
 
                             <ul>
                                 {this.state.lastTenScore.map((x)=>{
                                     if(x>this.state.highestScore){
                                         this.setState({
-                                            highestScore:x
+                                           highestScore:x
                                         })
                                     }else{
 
@@ -456,9 +549,11 @@ class GameComponents extends React.Component{
                             return(
                                 <div>
                                     <h1>Game Over {this.state.textMsg}</h1>
-
                                     <h1>Level {this.state.myLevel}</h1>
-                                    <h4>heart {this.state.heart}</h4>
+                                    <h4>star {this.state.star}</h4>
+                                    <h2>Blod:{this.state.blood} %</h2>
+                                   <p>Be Carefull if you blood become Zero you will die!!(each time you get -ve score your blood will decrease 10%)</p>
+
                                 <button class="blue" onClick={this.startMyGame} > Play Again</button>
      
                                 <br/>  <br/>
@@ -468,7 +563,7 @@ class GameComponents extends React.Component{
                                 {this.state.lastTenScore.map((x)=>{
                                     if(x>this.state.highestScore){
                                         this.setState({
-                                            highestScore:x
+                                        highestScore:x
                                         })
                                     }else{
     
@@ -480,7 +575,7 @@ class GameComponents extends React.Component{
                                 {this.state.lastTenScore.map((x)=>{
                                     if(x>this.state.highestScore){
                                         this.setState({
-                                            highestScore:x
+                                          highestScore:x
                                         })
                                     }else{
     
@@ -504,7 +599,7 @@ class GameComponents extends React.Component{
                 return(
                     <div>
                                 <h1>Level {this.state.myLevel}</h1>
-                                <h4>heart {this.state.heart}</h4>
+                                <h4>star {this.state.star}</h4>
 
                         <h2>Set The difficulties to Start the game </h2>
                     <button class="blue" onClick={this.startMyGame} > End</button>
