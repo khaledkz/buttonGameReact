@@ -98,3 +98,11 @@ color:#55BE47;
     font-family: fantasy;
     font-weight: bold;
 }
+ ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.resultList{
+    font-size:30px;
+}

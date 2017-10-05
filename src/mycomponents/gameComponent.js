@@ -22,14 +22,20 @@ class GameComponents extends React.Component{
             myLevel:1,
             star:1,
             scoreToDone:10000,
-            lastTenScore:[399,429,553,1124,1544,3622],
+            lastTenScore:[4399,429,553,1124,1544,3622,2412,,2223,3412,309],
             highestScore:0,
-            playerName:'Demo'
+            playerName:'Demo',
+            instructionReader:false
             
         }
 
     }
      
+    updateInstructionReader=() =>{
+        this.setState({
+            instructionReader:true
+        })
+    }
     generateRandomNumber = () => {
         this.setState({
             disabled:false,
@@ -225,7 +231,8 @@ class GameComponents extends React.Component{
             textMsg:"start",
              minLevel:5,
             maxLevel:15,
-            blood:100
+            blood:100,
+            instructionReader:false
            
         })
     }
@@ -429,11 +436,33 @@ class GameComponents extends React.Component{
                         if(this.state.result<100000){
                             return(
                                 <div>
-                                    <h1>{this.state.playerName}</h1>
-                                    <h2>Level {this.state.myLevel}</h2>
-                                    <h4>star {this.state.star}</h4>
-                                    <h2>Blod:{this.state.blood} %</h2>
-                                    <p> Be Carefull if you blood become Zero you will die!!(each time you get -ve score your blood will decrease 10%)</p>
+                                     <table >
+                                    <tr>
+                                    <th>Player Name</th>
+                                    <th>Level</th>
+                                    <th>star</th>
+                                    <th>Blood</th>
+                                    <th>Difficulties</th>
+                                    <th>Last Score</th>
+                                    <th>Your score</th>
+                                    <th>Next Level Score</th>
+
+
+                                    </tr>
+                                    <tr>
+                                    <td>{this.state.playerName}</td>
+                                    <td>Level {this.state.myLevel}</td>
+                                    <td>Star {this.state.star}</td>
+                                    <td>Blod:{this.state.blood} %</td>
+                                    <td>{this.state.textMsg}</td>
+                                    <td>{this.state.lastScore}</td>
+                                    <td>{this.state.result}</td>
+                                    <td>{this.state.scoreToDone}</td>
+                                    </tr>
+                                    
+                                </table>
+
+                                     <p> Be Carefull if you blood become Zero you will die!!(each time you get -ve score your blood will decrease 10%)</p>
     
     
                                 <button class="blue" onClick={this.startMyGame} > End</button>
@@ -513,10 +542,10 @@ class GameComponents extends React.Component{
                                     }
                                     
                                     if(x!=this.state.highestScore){
-                                        return <li>{x}</li>
+                                        return <li class="mylist">{x}</li>
     
                                     }else{
-                                        return <li class="heightScore">{x} Heighes Score</li>
+                                        return <li class="mylist heightScore">{x} Heighes Score</li>
                                     }
                                 })}
                              </ul> 
@@ -577,39 +606,100 @@ class GameComponents extends React.Component{
                                 
                 
             }else{
-                return(
+                if(this.state.instructionReader==false){
+                    return(
                     <div>
-                                <h1 class="playernameColor">Welcome <span>{this.state.playerName}</span></h1>
-                                <h2 class="level">Level: <span>{this.state.myLevel}</span></h2>
-                                <h4 class="star">star: <span>{this.state.star}</span></h4>
+                        <h1>Hello {this.state.playerName} </h1>
+                        <h1>Read The Instruction before start playing </h1>
 
-                        <h2 class="difficulties">Set The difficulties to Start the game  </h2>
-                        <h2 class="playernameColor">Between {this.state.minLevel} & {this.state.maxLevel} </h2>
-                        <h1 class="playernameColor">&darr;</h1>
-                    
-                     <input class="useNameInput" type="number" placeholder="update the difficulties" onChange={this.updateNumberOfButtons}/>
-                     <br/><br/>
-                     <button class="restartButton" onClick={this.startMyGame} > Restart</button>
-                     <br/>
-                     <h3 class="myMsg">{this.state.textMsg}</h3>
-                     <h3 class="nextLevelPoint">You Should Get {this.state.scoreToDone} To go next level</h3>
+                        <ul>
+                            
+                        <li> Game instruction:</li>
+                        <br/>
+                        <li>  1-Firstly Look to the last score this number should be in your mind.</li>
+                        <li>  2-you have to press to the red button and your new score should be less than the last score.</li>
+                        <br/>
+                        <li>   forexample: </li>
+                        <br/>
+                        <li>       if your new score less than lastscore</li>
+                        <li>       LastScore: 5000</li>
+                        <li>       if your new Score: 4999</li>
+                        <li>       your result will be 5000+4999 and your new score 9999</li>
+                        <br/>
+                        <li>        if your new score more than last score</li>
+                        <li>        LastScore: 5000</li>
+                        <li>       if your new Score: 5100</li>
+                        <li>        your result will be 5000-5100 and your new score -100</li>
+                        <br/>
+                        <li>        if you get +ve score:</li>
+                        <li>        you will get + 1 star</li>
+                        <br/>
+                        <li>       if you get -ve score:</li>
+                        <li>        you will get :- 1    :    Star</li>
+                        <li>                     - 10 % :   Blood</li>
+                        <br/>
+                        <li>       When You lose the game:</li>
+                        <br/>
+                        <li>       your blood at the begining wil be 100%</li>
+                        <li>      if you get -ve score will decrease 10%</li>
+                        <li>      When your blood become 0% you will lose.</li>
+                        <br/>
+                        <li>      How to win the Game:</li>
+                        <br/>
+                        <li>      if you get score 100,000 and if you still have blood </li>
+                        <li>      You will win the game.</li>
+                        <br/>
+                        <li>       Try to get The highest Score </li>
+  
+                        <br/>
 
- 
+                            
+                        </ul>
+
+                        <button onClick={this.updateInstructionReader}>Done</button>
                     </div>
-                    )
+                )
+                    
+                }else{
+                    return(
+                        <div>
+
+                               
+                                    <h1 class="playernameColor">Welcome <span>{this.state.playerName}</span></h1>
+                                    <h2 class="level">Level: <span>{this.state.myLevel}</span></h2>
+                                    <h4 class="star">star: <span>{this.state.star}</span></h4>
+    
+                            <h2 class="difficulties">Set The difficulties to Start the game  </h2>
+                            <h2 class="playernameColor">Between {this.state.minLevel} & {this.state.maxLevel} </h2>
+                            <h1 class="playernameColor  ">&darr;</h1>
+                        
+                         <input class="useNameInput" type="number" placeholder="update the difficulties" onChange={this.updateNumberOfButtons}/>
+                         <br/><br/>
+                         <button class="restartButton" onClick={this.startMyGame} > Restart</button>
+                         <br/>
+                         <h3 class="myMsg">{this.state.textMsg}</h3>
+                         <h3 class="nextLevelPoint">You Should Get {this.state.scoreToDone} To go next level</h3>
+    
+     
+                        </div>
+                        )
+                }
+               
             }
             
         }else{
-            return(
-                <div>
-                <h2 class="playernameColor">Player Name</h2>
-                <input class="useNameInput" onChange={this.updateUserName} type="text" placeholder="write your name here"/>
-                <br/> <br/>
-                <button class="startButton" onClick={this.startMyGame}> Start</button>
-                <p class="firstGAmeInstruction">write your name in the text field and press start to start the game</p>
-                 </div>
-                )
-        }
+                 return(
+                    <div>
+                    <h2 class="playernameColor">Player Name</h2>
+                    <input class="useNameInput" onChange={this.updateUserName} type="text" placeholder="write your name here"/>
+                    <br/> <br/>
+                    <button class="startButton" onClick={this.startMyGame}> Start</button>
+                    <p class="firstGAmeInstruction">write your name in the text field and press start to start the game</p>
+                     </div>
+                    )
+            }
+            
+      
             
                 }
         
