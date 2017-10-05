@@ -14,7 +14,7 @@ class GameComponents extends React.Component{
             disabled:true,
             result:0,
             resetColor:'red',
-            lastScore:400000,
+            lastScore:5000,
             minLevel:5,
             maxLevel:15,
             textMsg:'Start',
@@ -22,8 +22,9 @@ class GameComponents extends React.Component{
             myLevel:1,
             star:1,
             scoreToDone:10000,
-            lastTenScore:[1,2,3,4,5,6   ],
-            highestScore:0
+            lastTenScore:[399,429,553,1124,1544,3622],
+            highestScore:0,
+            playerName:'Demo'
             
         }
 
@@ -107,10 +108,10 @@ class GameComponents extends React.Component{
                numberOfButtons:80             
            })
 
-          }  else if(this.state.result>=120000){
+          }  else if(this.state.result>=80000 && this.state.result<100000){
             this.setState({
                myLevel:10,
-               scoreToDone:150000,
+               scoreToDone:100000,
                numberOfButtons:90
            })
           } 
@@ -186,8 +187,7 @@ class GameComponents extends React.Component{
         setTimeout(this.MyRandomNumber, 2000);
         
       }
-//lastScore:15000 
-    MyRandomNumber = () => {
+     MyRandomNumber = () => {
        
         const ranNum = this.getRandomInt(0, this.state.numberOfButtons);
         this.setState({
@@ -202,8 +202,15 @@ class GameComponents extends React.Component{
       getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
       }
+
+      updateUserName=(event)=>{
+        console.log(event.target.value);
+        this.setState({
+            playerName:event.target.value
+        });
+      }
     startMyGame=()=>{
-         
+        
         this.setState({
             startGame:!this.state.startGame,
             randomNum:-1,
@@ -214,18 +221,17 @@ class GameComponents extends React.Component{
             myLevel:1,
             star:1,
             scoreToDone:10000,
-            lastScore:3000,
+            lastScore:5000,
             textMsg:"start",
              minLevel:5,
             maxLevel:15,
-            blood:20
+            blood:100
            
         })
     }
     updateNumberOfButtons=(event)=>{
 
-        //set min and max
-
+ 
         if(event.target.value>=this.state.minLevel && event.target.value<=this.state.maxLevel){
             let myNewMsg='Your Difficulties is '+event.target.value;
             
@@ -251,19 +257,56 @@ class GameComponents extends React.Component{
 
                  
          if(myTotal<this.state.lastScore){
+            let newResult=this.state.result+myTotal;
+            
+             console.log(newResult)
              if(this.state.blood>0){
-         let myStar = this.state.star;
-         let newResult=this.state.result+myTotal;
-
-                  this.setState({
-                disabled:true,
-                result:newResult,
-                resetColor:"grey",
-                lastScore:myTotal,
-                challengeMsg:'Continue Challenge',
-                star:myStar+1
-                
-             })
+                 if(newResult<100000){
+                    let myStar = this.state.star;
+           
+                             this.setState({
+                           disabled:true,
+                           result:newResult,
+                           resetColor:"grey",
+                           lastScore:myTotal,
+                           challengeMsg:'Continue Challenge',
+                           star:myStar+1
+                           
+                        })
+                 }else{
+                    let myStar = this.state.star;
+                    let newResult=this.state.result+myTotal;
+    
+                    let NewArray=this.state.lastTenScore;
+                    let smallestNum=3000000;
+                     NewArray.map((x)=>{
+                        if(x<smallestNum){
+                         smallestNum=x;
+                        }
+                    });
+                    for(var i=0;i<NewArray.length;i++){
+                        if(NewArray[i]==smallestNum && NewArray[i]<newResult){
+                                 
+                        NewArray[i]=newResult;
+                        console.log(NewArray[i]+"k")
+                        
+                        }
+                    }
+    
+                    this.setState({
+                        
+                        disabled:true,
+                        result:newResult,
+                        resetColor:"grey",
+                        lastScore:myTotal,
+                        challengeMsg:'done',
+                        star:myStar+1,
+                        lastTenScore:NewArray
+                        
+                    
+                })
+                 }
+         
             }else{
                 let myStar = this.state.star;
                 let newResult=this.state.result+myTotal;
@@ -306,8 +349,7 @@ class GameComponents extends React.Component{
         this.setState({
             blood:myBlooc
         })
-        console.log('-1')
-            console.log('blood'+myBlooc)
+   
            if(myBlooc>=10){
             console.log('blood'+this.state.blood)
             
@@ -321,11 +363,9 @@ class GameComponents extends React.Component{
                lastScore:myTotal,
                star:myStar-1,           
        })
-       console.log('10')
        
            }else{
             
-            console.log('0')
             
        
         let myStar = this.state.star;
@@ -345,8 +385,7 @@ class GameComponents extends React.Component{
                 
             } 
         }
-//      //                textMsg:myNewMsg
-
+ 
 
              this.setState({
                disabled:true,
@@ -358,108 +397,7 @@ class GameComponents extends React.Component{
                lastTenScore:NewArray
             })
            
-           }}
-
-       //----------------------------------
-
-
-        // if(myTotal<this.state.lastScore){
-        //     if(this.state.blood>0){ 
-        //     let myStar = this.state.star;
-        //     let NewArray=this.state.lastTenScore;
-        //     let smallestNum=3000000;
-        //     let newResult=this.state.result+myTotal;
-        //     NewArray.map((x)=>{
-        //         if(x<smallestNum){
-        //           //  smallestNum=x;
-        //         }
-        //     });
-        //     for(var i=0;i<NewArray.length;i++){
-        //         if(NewArray[i]==smallestNum){
-        //          //   NewArray[i]=newResult;
-        //         }
-        //     }
-        //      //                textMsg:myNewMsg
-
-        //      this.setState({
-        //         disabled:true,
-        //         result:newResult,
-        //         resetColor:"grey",
-        //         lastScore:myTotal,
-        //         challengeMsg:'Continue Challenge',
-        //         star:myStar+1
-                
-
-        //      })
-
-            
-        // }else{
-             
-        //     if(this.state.blood>1){
-        //              let myStar = this.state.star;
-        //             let NewArray=this.state.lastTenScore;
-        //             let smallestNum=3000000;
-        //             let newResult=this.state.result-myTotal;
-        //             NewArray.map((x)=>{
-        //                 if(x<smallestNum){
-        //                  //   smallestNum=x;
-        //                 }
-        //             });
-        //             for(var i=0;i<NewArray.length;i++){
-        //                 if(NewArray[i]==smallestNum){
-        //                //     NewArray[i]=newResult;
-        //                 }
-        //             }
-        //             //             lastTenScore:NewArray
-
-        //               this.setState({
-        //                 disabled:true,
-        //                 result:newResult,
-        //                 resetColor:"grey",
-        //                 lastScore:myTotal,
-        //                 challengeMsg:'Continue Challenge',
-        //                 star:myStar-1,
-        //                 blood:this.state.blood-10
-        //              })
-                    
-                
-        //     }
-             
-        // }
-        
-             
-        // } else{
-        //     myNewMsg="Good Luck Next Time";
-        //     let myStar = this.state.star;
-        //     let NewArray=this.state.lastTenScore;
-        //     let smallestNum=3000000;
-        //     let newResult=this.state.result-myTotal;
-        //     NewArray.map((x)=>{
-        //         if(x<smallestNum){
-        //        //     smallestNum=x;
-        //         }
-        //     });
-        //     for(var i=0;i<NewArray.length;i++){
-        //         if(NewArray[i]==smallestNum){
-        //             NewArray[i]=newResult;
-        //         }
-        //     }
-        //     this.setState({
-        //    disabled:true,
-        //    result:this.state.result-myTotal,
-        //    resetColor:"grey",
-        //    lastScore:myTotal,
-        //    challengeMsg:'Continue Challenge',
-        //    star:myStar-1,
-        //       textMsg:myNewMsg,                
-        //       blood:this.state.blood-10
-              
-              
-              
-               
-        //   })
-        // }
-        
+           }} 
         
         
         
@@ -488,67 +426,110 @@ class GameComponents extends React.Component{
         if(this.state.startGame ){
             if(this.state.difficulties>0){
                     if(this.state.blood>0 ){
-                        return(
+                        if(this.state.result<100000){
+                            return(
+                                <div>
+                                    <h1>{this.state.playerName}</h1>
+                                    <h2>Level {this.state.myLevel}</h2>
+                                    <h4>star {this.state.star}</h4>
+                                    <h2>Blod:{this.state.blood} %</h2>
+                                    <p> Be Carefull if you blood become Zero you will die!!(each time you get -ve score your blood will decrease 10%)</p>
+    
+    
+                                <button class="blue" onClick={this.startMyGame} > End</button>
+                                 <input type="number" placeholder="set the difficulties" onChange={this.updateNumberOfButtons}/>
+                                <button class="red" onClick={this.generateRandomNumber}>{this.state.challengeMsg}</button>
+                                <h3>{this.state.textMsg}</h3>
+                                <br/>  <br/>
+                                {this.AddMoreButtons()}
+            
+                                <h1>Your Score:{this.state.result}</h1>
+                                <h3>last Score:{this.state.lastScore}</h3>
+    
+                                <h3>You Should Get {this.state.scoreToDone} To go next level</h3>
+                                 
+                                
+    
+                                <ul>
+                                    {this.state.lastTenScore.map((x)=>{
+                                        if(x>this.state.highestScore){
+                                            this.setState({
+                                               highestScore:x
+                                            })
+                                        }else{
+    
+                                        }
+                                       
+                                    })}
+    
+    
+                                    {this.state.lastTenScore.map((x)=>{
+                                        if(x>this.state.highestScore){
+                                            this.setState({
+                                                highestScore:x
+                                            })
+                                        }else{
+    
+                                        }
+                                        
+                                        if(x!=this.state.highestScore){
+                                            return <li>{x}</li>
+    
+                                        }else{
+                                            return <li class="heightScore">{x} Heighes Score</li>
+                                        }
+                                    })}
+                                 </ul> 
+    
+                                </div>
+                                )
+                        }else{
+                            return(
                             <div>
-                                <h1>Level {this.state.myLevel}</h1>
-                                <h4>star {this.state.star}</h4>
-                                <h2>Blod:{this.state.blood} %</h2>
-                                <p>Be Carefull if you blood become Zero you will die!!(each time you get -ve score your blood will decrease 10%)</p>
+ 
+                                <h1>Will Done {this.state.playerName} You win</h1>
+                                <button class="blue" onClick={this.startMyGame} > Play Again</button>
 
-
-                            <button class="blue" onClick={this.startMyGame} > End</button>
-                             <input type="number" placeholder="set the difficulties" onChange={this.updateNumberOfButtons}/>
-                            <button class="red" onClick={this.generateRandomNumber}>{this.state.challengeMsg}</button>
-                            <h3>{this.state.textMsg}</h3>
-                            <br/>  <br/>
-                            {this.AddMoreButtons()}
-        
-                            <h1>Your Score:{this.state.result}</h1>
-                            <h3>last Score:{this.state.lastScore}</h3>
-
-                            <h3>You Should Get {this.state.scoreToDone} To go next level</h3>
-                             
-                            
-
-                            <ul>
+                                <ul>
                                 {this.state.lastTenScore.map((x)=>{
                                     if(x>this.state.highestScore){
                                         this.setState({
-                                           highestScore:x
+                                        highestScore:x
                                         })
                                     }else{
-
+    
                                     }
                                    
                                 })}
-
-
+    
+    
                                 {this.state.lastTenScore.map((x)=>{
                                     if(x>this.state.highestScore){
                                         this.setState({
-                                            highestScore:x
+                                          highestScore:x
                                         })
                                     }else{
-
+    
                                     }
                                     
                                     if(x!=this.state.highestScore){
                                         return <li>{x}</li>
-
+    
                                     }else{
                                         return <li class="heightScore">{x} Heighes Score</li>
                                     }
                                 })}
                              </ul> 
-
-                            </div>
-                            )
+    
+                            </div>)
+                        }
+                       
                     }else{
                       //  <h1>{this.state.textMsg}</h1>
                         
                             return(
                                 <div>
-                                    <h1>Game Over {this.state.textMsg}</h1>
+                                    <h1>Game Over {this.state.playerName} </h1>
                                     <h1>Level {this.state.myLevel}</h1>
                                     <h4>star {this.state.star}</h4>
                                     <h2>Blod:{this.state.blood} %</h2>
@@ -598,14 +579,20 @@ class GameComponents extends React.Component{
             }else{
                 return(
                     <div>
-                                <h1>Level {this.state.myLevel}</h1>
-                                <h4>star {this.state.star}</h4>
+                                <h1 class="playernameColor">Welcome <span>{this.state.playerName}</span></h1>
+                                <h2 class="level">Level: <span>{this.state.myLevel}</span></h2>
+                                <h4 class="star">star: <span>{this.state.star}</span></h4>
 
-                        <h2>Set The difficulties to Start the game </h2>
-                    <button class="blue" onClick={this.startMyGame} > End</button>
-                     <input type="number" placeholder="update the difficulties" onChange={this.updateNumberOfButtons}/>
-                     <h3>{this.state.textMsg}</h3>
-                     <h3>You Should Get {this.state.scoreToDone} To go next level</h3>
+                        <h2 class="difficulties">Set The difficulties to Start the game  </h2>
+                        <h2 class="playernameColor">Between {this.state.minLevel} & {this.state.maxLevel} </h2>
+                        <h1 class="playernameColor">&darr;</h1>
+                    
+                     <input class="useNameInput" type="number" placeholder="update the difficulties" onChange={this.updateNumberOfButtons}/>
+                     <br/><br/>
+                     <button class="restartButton" onClick={this.startMyGame} > Restart</button>
+                     <br/>
+                     <h3 class="myMsg">{this.state.textMsg}</h3>
+                     <h3 class="nextLevelPoint">You Should Get {this.state.scoreToDone} To go next level</h3>
 
  
                     </div>
@@ -615,8 +602,11 @@ class GameComponents extends React.Component{
         }else{
             return(
                 <div>
-                <button class="gold" onClick={this.startMyGame}> Start</button>
-                <input type="number" onChange={this.updateNumberOfButtons} disabled/>
+                <h2 class="playernameColor">Player Name</h2>
+                <input class="useNameInput" onChange={this.updateUserName} type="text" placeholder="write your name here"/>
+                <br/> <br/>
+                <button class="startButton" onClick={this.startMyGame}> Start</button>
+                <p class="firstGAmeInstruction">write your name in the text field and press start to start the game</p>
                  </div>
                 )
         }

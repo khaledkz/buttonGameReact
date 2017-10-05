@@ -3,22 +3,98 @@
 
     background:#FF2C2C;
     color:white;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+    
 }
-
+.playernameColor{
+    color:rgb(78, 236, 162);
+    font-size: 33px;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+    
+}
+.arrowDown{
+    font-size: 43px;
+    font-weight: bold;
+    color:#C53232
+    
+}
+.level{
+    color:palevioletred;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+    font-size: 33px;
+    
+}
+.star{
+    color:#FF5D5D;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+    font-size: 33px;
+    
+}
+.difficulties{
+    color:#A4A2FF;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+    font-size: 33px;
+    
+}
 .gold{
     background:GOLD;
     color:white;
 }
-.blue{
+.useNameInput{
+    font-size:28px
+}
+.useNameInput::placeholder{
+    color:#6387EB;
+    text-align: center;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+    
+    
+}
+.restartButton{
     background:rgb(35, 35, 63);
     color:whitesmoke;
+   
+    width:133px;
+    font-size: 27px;
+    font-family: fantasy;
+    font-weight: bold;
 }
 li{
     list-style: none;
     color:green;
 }
+.startButton{
+    background:GOLD;
+    color:#6B0C6E;
+    width:133px;
+    font-size: 33px;
+    font-family: fantasy;
+    font-weight: bold;
+}
 .heightScore{
     color:red;
     margin-left:120px;
-    
+        font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+
+}
+span{
+color:#55BE47;
+}
+.firstGAmeInstruction{
+    color:#993333;
+    font-size: 20px;
+    font-family: Baskerville, "Baskerville Old Face", "Goudy Old Style", Garamond, "Times New Roman", serif;
+}
+
+.nextLevelPoint{
+    color:#2FA0A0;
+     font-size: 33px;
+    font-family: fantasy;
+    font-weight: bold;
+}
+.myMsg{
+    color:#B8A84D;
+     font-size: 33px;
+    font-family: fantasy;
+    font-weight: bold;
 }
